@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,9 +15,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [PostController::class, 'home'])->name('home');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -28,32 +27,10 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+Route::resource('posts', 'App\Http\Controllers\PostController')->middleware('auth');
 
-Route::get('/api/publications', function () {
-    return view('publications.index');
-});
+Route::get('posts/{id}/read', [PostController::class, 'read'])->name('posts.read');
 
-Route::get('/api/publications/{id}', function () {
-    return view('publications.show');
-});
+Route::post('posts/{id}/vote', [PostController::class, 'vote'])->name('posts.vote')->middleware('auth');
 
-Route::get('/api/publications/create', function () {
-    return view('publications.create');
-});
-
-Route::post('/api/publications', function () {
-    return view('publications.store');
-});
-
-Route::get('/api/publications/{id}/edit', function () {
-    return view('publications.edit');
-});
-
-Route::put('/api/publications/{id}', function () {
-    return view('publications.update');
-});
-
-Route::delete('/api/publications/{id}', function () {
-    return view('publications.destroy');
-});
 require __DIR__.'/auth.php';
