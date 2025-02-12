@@ -17,9 +17,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [PostController::class, 'home'])->name('home');
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', function () {return view('dashboard');})->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -29,8 +27,10 @@ Route::middleware('auth')->group(function () {
 
 Route::resource('posts', 'App\Http\Controllers\PostController')->middleware('auth');
 
+Route::resource('topics', 'App\Http\Controllers\TopicController')->middleware('auth');
+
 Route::get('posts/{id}/read', [PostController::class, 'read'])->name('posts.read');
 
-Route::post('posts/{id}/vote', [PostController::class, 'vote'])->name('posts.vote')->middleware('auth');
+Route::post('posts/{post}/vote', [PostController::class, 'vote'])->name('posts.vote')->middleware('auth');
 
 require __DIR__.'/auth.php';

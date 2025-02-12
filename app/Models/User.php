@@ -50,8 +50,4 @@ class User extends Authenticatable
     {
         return $this->hasMany(Post::class);
     }
-
-    public function votes() : BelongsToMany{
-        return $this->belongsToMany(Post::class, 'votes');
-    }
 }

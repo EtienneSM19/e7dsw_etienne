@@ -70,20 +70,11 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
-        $validated = $request->validate([
-            'title' => 'required|min:3|max:255',
-            'summary' => 'max:2000',
-            'body' => 'required',
-            'published_at' => 'required|date',
-        ]);
-
-        $post->user_id = Auth::id();
-        $post->title = $validated['title'];
-        $post->summary = $validated['summary'];
-        $post->body = $validated['body'];
-        $post->published_at = $validated['published_at'];
-        $post->save();
-
+        if($post->user_id != Auth::id()) {
+            return redirect()->route('posts.index')
+                ->with('error', 'Error al editar la publicación, no eres el autor de la publicación');
+        }
+        $post->update($request->all());
         return redirect()->route('posts.index')
         ->with('success', 'Publicación editada correctamente');
     }
@@ -118,5 +109,16 @@ class PostController extends Controller
     public function read($id) {
         $post = Post::find($id);
         return view('posts.read', compact('post'));
+    }
+
+    public function vote(Post $post) {
+        $vote = $post->votedUsers()->find(Auth::id());
+        if (!$vote) {
+        $post->votedUsers()->attach(Auth::id());
+        } else {
+        $post->votedUsers()->detach(Auth::id());
+        }
+        return redirect()->back();
+
     }
 }

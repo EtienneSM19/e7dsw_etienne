@@ -13,33 +13,34 @@
             Editar Publicación:
           </h2>
           <div class="relative overflow-x-auto mt-8">
-            <form class="max-w-sm mx-auto" method="post" action="{{ route('posts.update') }}">
+            <form class="max-w-sm mx-auto" action="{{ route('posts.update', $post) }}" method="POST">
               @csrf
+              @method('PUT')
               <div class="mb-5">
-                <label for="title" class="block mb-2 text-sm font-medium text-gray-900
-                  dark:text-white">Título</label>
-                <input type="text" name="title" id="title" value="{{ old('title', $post->title) }}"
-                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
-                         focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5
-                         dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400
-                         dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500
-                      @error('title') border-red-600 @enderror" required>
-                @error('title')
-                  <div class="text-sm bg-red-200 px-3 py-1 rounded-lg">
-                    {{ $message }}
-                  </div>
-                @enderror
+              <label for="title" class="block mb-2 text-sm font-medium text-gray-900
+                dark:text-white">Título</label>
+              <input type="text" name="title" id="title" value="{{ old('title', $post->title) }}"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
+                   focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5
+                   dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400
+                   dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500
+                  @error('title') border-red-600 @enderror" required>
+              @error('title')
+                <div class="text-sm bg-red-200 px-3 py-1 rounded-lg">
+                {{ $message }}
+                </div>
+              @enderror
               </div>
               <div class="mb-5">
-                <label for="summary"
-                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                    Resumen</label>
-                <textarea name="summary" id="summary"
-                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
-                      focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5
-                      dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400
-                      dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500
-                      @error('summary') border-red-600 @enderror">
+              <label for="summary"
+                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                Resumen</label>
+              <textarea name="summary" id="summary"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
+                  focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5
+                  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400
+                  dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500
+                  @error('summary') border-red-600 @enderror">
 		    {{ old('summary', $post->summary) }}
 </textarea>
                 @error('summary')

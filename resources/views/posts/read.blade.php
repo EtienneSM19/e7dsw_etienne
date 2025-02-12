@@ -15,17 +15,21 @@
                     </p>
                     <h2 class="font-semibold text-4xl text-black-900 leading-tight m-3">
                         {{ $post->title}}
-                    </h2>
-                    @if ($post->votedUsers)
-                    <span class="text-sm font-mono bg-slate-200 p-2 rounded-2xl">
-                        {{ $post->votedUsers->count()}}</span>
-                    @endif
-                    @auth
-                    <form action="{{ route('posts.vote', $post) }}" method="POST" class="text-sm inline-block">
-                        @csrf
-                        <input type="submit" value="Me Gusta" class="bg-blue-200 hover:bg-blue-500 p-2 rounded-xl" />
-                    </form>
-                    @endauth
+                        @if ($post->votedUsers)
+                        <span class="text-sm font-mono bg-slate-200 p-2 rounded-2xl">
+                            {{ $post->votedUsers->count()}}</span>
+                            @endif
+                            @auth
+                            <form action="{{ route('posts.vote', $post) }}" method="POST" class="text-sm inline-block">
+                                @csrf
+                                @if(!$post->votedUsers->contains(auth()->user()))
+                                <input type="submit" value="Me Gusta" class="bg-blue-200 hover:bg-blue-500 p-2 rounded-xl" />
+                                @else
+                                <input type="submit" value="Has votado" class="bg-red-200 hover:bg-red-500 p-2 rounded-xl"/>
+                                @endif
+                            </form>
+                            @endauth
+                        </h2>
                     <p class="italic m-3 text-xl text-gray-800 font-semibold">
                         {{ $post->summary }}
                     </p>

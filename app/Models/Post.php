@@ -22,7 +22,12 @@ class Post extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function votes() {
+    public function votedUsers() {
         return $this->belongsToMany(User::class, 'votes');
+    }
+
+    public function topic() : BelongsTo
+    {
+        return $this->belongsTo(Topic::class);
     }
 }
